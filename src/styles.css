@@ -1,3 +1,214 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+@theme {
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --color-primary: #f59e0b;
+  --color-accent: #14b8a6;
+}
+
+/* ─── CSS Custom Properties ─────────────────────────────────────── */
+:root {
+  --primary-color: #f59e0b;
+  --accent-color: #14b8a6;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  background-color: #09090b;
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #09090b;
+  color: #fafafa;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Grain Texture ──────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain-shift 8s steps(2, end) infinite;
+}
+
+@keyframes grain-shift {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-2%, -3%); }
+  20%  { transform: translate(3%, 2%); }
+  30%  { transform: translate(-1%, 4%); }
+  40%  { transform: translate(4%, -1%); }
+  50%  { transform: translate(-3%, 3%); }
+  60%  { transform: translate(2%, -4%); }
+  70%  { transform: translate(-4%, 2%); }
+  80%  { transform: translate(3%, -2%); }
+  90%  { transform: translate(-2%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ─── Scroll-reveal animations ───────────────────────────────────── */
+.reveal-ready {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-ready.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* ─── Focus visible ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+
+/* ─── Hero entry animations ─────────────────────────────────────── */
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-animate {
+  opacity: 0;
+  animation: hero-fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-animate-delay-1 { animation-delay: 0.1s; }
+.hero-animate-delay-2 { animation-delay: 0.25s; }
+.hero-animate-delay-3 { animation-delay: 0.45s; }
+.hero-animate-delay-4 { animation-delay: 0.65s; }
+.hero-animate-delay-5 { animation-delay: 0.85s; }
+
+/* ─── SVG River draw animation ───────────────────────────────────── */
+.river-path {
+  stroke-dasharray: 5000;
+  stroke-dashoffset: 5000;
+}
+
+.river-path--main {
+  animation: draw-river 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
+}
+
+.river-path--secondary {
+  animation: draw-river 3.4s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.7s;
+}
+
+.river-path--tertiary {
+  animation: draw-river 4s cubic-bezier(0.16, 1, 0.3, 1) forwards 1s;
+}
+
+.river-path--shimmer {
+  animation: draw-river 3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s;
+}
+
+@keyframes draw-river {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ─── Prefers-reduced-motion overrides ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-animate {
+    animation: none;
+    opacity: 1;
+  }
+
+  .river-path {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .animate-float,
+  .animate-glow-pulse,
+  .animate-bounce {
+    animation: none;
+  }
+
+  .reveal-ready {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ─── Float animation ────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ─── Glow pulse ─────────────────────────────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.7; }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ─── Event landing: slide-in for timeline items ─────────────────── */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ─── Event landing: focus-visible override for themed color ─────── */
+.event-focus-ring:focus-visible {
+  outline-color: #FF5722;
+}

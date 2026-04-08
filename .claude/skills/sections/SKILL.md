@@ -5,6 +5,40 @@ description: Crea secciones estándar de landing pages Angular + TailwindCSS: ab
 
 # Skill: Secciones estándar de landing page
 
+## Reglas críticas (no negociables)
+
+- SIEMPRE usar THEME (prohibido hardcodear colores como amber, teal, etc)
+- SIEMPRE respetar que cada sección se sienta diferente (layout, glow, alineación)
+- SI la sección usa imágenes → SIEMPRE deben renderizarse con <img> (no conceptual)
+- SI no hay imágenes del cliente → usar placeholder (Unsplash/Pexels)
+- NUNCA dejar cards visuales sin imagen si el tipo lo requiere
+- NUNCA usar iconos como reemplazo de imágenes en cards visuales
+
+## Implementación obligatoria (evitar ambigüedad)
+
+- Las imágenes SIEMPRE deben usar:
+  <img [ngSrc]="..." fill class="object-cover" />
+
+- Las cards SIEMPRE deben tener altura mínima (min-h-*)
+- El layout SIEMPRE debe definirse explícitamente (grid-cols-*, no implícito)
+
+## Regla de decisión automática (para evitar dudas del modelo)
+
+- Si items.length <= 3 → usar layout asimétrico
+- Si items.length >= 4 → usar grid uniforme
+- Si hay imagen principal → usar layout 2 columnas
+- Si es contenido narrativo → usar stack vertical
+
+Claude debe elegir automáticamente sin pedir confirmación
+
+## Error prohibido
+
+Cards sin altura definida  
+Secciones sin glow  
+Repetir layout de otra sección  
+Usar colores hardcodeados  
+Cards visuales sin imagen  
+
 ## Principio fundamental
 
 Aunque todas las secciones comparten el mismo sistema visual, cada una debe **sentirse diferente**. Lo que varía libremente: posición del glow, layout del grid, alineación del header, tint de color en cards. Lo que nunca varía: paleta, espaciado, `rounded-lg`, micro-patrones.

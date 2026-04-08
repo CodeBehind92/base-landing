@@ -5,6 +5,39 @@ description: Crea el hero principal de un landing page Angular + TailwindCSS. Ú
 
 # Skill: Hero principal
 
+## Reglas críticas (no negociables)
+
+- SIEMPRE incluir imagen de fondo en la capa 1
+- NUNCA omitirla aunque no haya assets del cliente
+- SI no hay imagen → usar placeholder (Unsplash/Pexels)
+
+## Implementación obligatoria (no conceptual)
+
+La imagen de fondo debe renderizarse así:
+
+<div class="absolute inset-0 -z-10 overflow-hidden">
+  <img
+    src="https://images.unsplash.com/photo-..."
+    alt="Background"
+    class="w-full h-full object-cover"
+  />
+
+  <div class="absolute inset-0 bg-zinc-950/65"></div>
+  <div class="absolute inset-0 bg-linear-to-b from-zinc-950/70 via-transparent to-zinc-950"></div>
+  <div class="absolute inset-0 opacity-[0.03] bg-[url('/noise.png')] pointer-events-none"></div>
+</div>
+
+## Regla de fallback
+
+- Si el usuario no da imagen → Claude DEBE elegir una coherente con el negocio
+- Nunca dejar el hero sin imagen
+
+## Error prohibido
+
+Hero sin imagen  
+Hero con fondo sólido  
+Hero con gradiente como fondo principal
+
 ## Antes de escribir una sola línea de código
 
 1. Identifica el concepto narrativo del cliente (¿qué historia cuenta?)

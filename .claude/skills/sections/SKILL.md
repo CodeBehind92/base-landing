@@ -22,6 +22,26 @@ No hay un grid predeterminado. Elige según la naturaleza del contenido:
 | Features con iconos de apoyo | Grid con icono pequeño + texto |
 | Testimonios | Cards con cita, nombre y avatar |
 
+## Sistema de temas
+
+Siempre importa y usa `THEME` desde `theme.config.ts`. Nunca hardcodees colores de acento:
+
+```typescript
+import { THEME } from '@core/config/theme.config';
+
+// En el componente:
+protected readonly theme = THEME;
+```
+
+```html
+<!-- Correcto -->
+<span [class]="theme.accentText">{{ eyebrow }}</span>
+<div [class]="'absolute bottom-0 ... ' + theme.accentLine + ' ...'"></div>
+
+<!-- Nunca -->
+<span class="text-amber-400">{{ eyebrow }}</span>
+```
+
 ## Imágenes: siempre fotografía real, nunca iconos como elemento visual principal
 
 Las cards con contenido visual **siempre usan fotografía real** como fondo. Los iconos quedan reservados para elementos de apoyo dentro de contenido textual (stats, features simples). Nunca uses iconos como reemplazo de imágenes en cards visuales.
@@ -48,11 +68,16 @@ Las cards con contenido visual **siempre usan fotografía real** como fondo. Los
     <div class="grid grid-cols-1 [cols] gap-[n]" role="list" aria-label="[descripción]">
       @for (item of items; track item.id; let i = $index) {
         <article role="listitem" appReveal [delay]="i * 100 + 'ms'"
-          class="group relative overflow-hidden rounded-lg border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.02] cursor-default">
+          class="group relative overflow-hidden rounded-lg border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.02] cursor-default min-h-64 flex flex-col">
+          <!--
+            min-h-64 garantiza altura mínima: la card NUNCA depende del texto para llenarse.
+            flex flex-col permite que el cuerpo use flex-1 para ocupar el espacio restante.
+            Ajusta min-h según densidad visual: min-h-48 compacta, min-h-64 estándar, min-h-80 destacada.
+          -->
 
-          <!-- contenido de la card -->
+          <!-- contenido de la card — el elemento de cuerpo principal debe usar flex-1 -->
 
-          <!-- Accent line hover (siempre al final del article) -->
+          <!-- Accent line hover (siempre al final) -->
           <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-amber-400/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true"></div>
         </article>
       }

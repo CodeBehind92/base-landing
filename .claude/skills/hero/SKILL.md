@@ -191,6 +191,90 @@ constructor() {
 
 Orden de entrada: eyebrow (1) → H1 (2) → subheadline (3) → CTAs (4) → stats + scroll indicator (5).
 
+## Sistema de temas
+
+Siempre importa `THEME` desde `theme.config.ts`. Nunca hardcodees colores de acento:
+
+```typescript
+import { THEME } from '@core/config/theme.config';
+protected readonly theme = THEME;
+```
+
+```html
+<!-- Eyebrow con tema -->
+<span [class]="theme.accentTextMuted">{{ eyebrow }}</span>
+<span [class]="'w-8 h-px ' + theme.accentBorderLine"></span>
+
+<!-- CTA primario con tema -->
+<a [class]="'inline-flex ... ' + theme.ctaBg + ' ' + theme.ctaBgHover + ' ' + theme.ctaText + ' ' + theme.ctaShadow + ' ' + theme.ctaRing">
+  {{ ctaPrimary.label }}
+</a>
+
+<!-- Glow blobs con tema -->
+<div [class]="'absolute -top-32 -left-40 w-162.5 h-162.5 rounded-lg blur-3xl animate-glow-pulse ' + theme.glowPrimary"></div>
+```
+
+## Variantes del delineador inferior (SVG narrativo — capa 3)
+
+Elige una variante por proyecto. **Nunca uses la misma en dos landings distintos.**
+
+### Variante A — Río / agua (flujo ondulado)
+```html
+<svg viewBox="0 0 1440 180" fill="none" class="w-full" preserveAspectRatio="none">
+  <path d="M0,120 C200,88 380,150 580,120 S880,88 1080,120 S1280,150 1440,115"
+    stroke="rgba(20,184,166,0.07)" stroke-width="1" class="river-path river-path--tertiary"/>
+  <path d="M0,70 C180,42 360,98 560,70 S830,42 1020,70 S1200,98 1380,70 L1440,68"
+    stroke="rgba(245,158,11,0.16)" stroke-width="1.5" class="river-path river-path--secondary"/>
+  <path d="M0,90 C130,58 280,122 460,90 S700,58 880,90 S1060,122 1240,90 S1390,58 1440,86"
+    stroke="rgba(20,184,166,0.38)" stroke-width="2.5" stroke-linecap="round" class="river-path river-path--main"/>
+</svg>
+```
+
+### Variante B — Montaña / horizonte (silueta angular)
+```html
+<svg viewBox="0 0 1440 160" fill="none" class="w-full" preserveAspectRatio="none">
+  <path d="M0,160 L200,80 L380,120 L560,40 L740,100 L920,30 L1100,90 L1280,50 L1440,80 L1440,160 Z"
+    fill="rgba(255,255,255,0.02)"/>
+  <path d="M0,160 L200,80 L380,120 L560,40 L740,100 L920,30 L1100,90 L1280,50 L1440,80"
+    stroke="rgba(255,255,255,0.08)" stroke-width="1" class="river-path"/>
+  <path d="M0,160 L280,100 L520,130 L760,60 L1000,110 L1240,70 L1440,95"
+    stroke="rgba(245,158,11,0.20)" stroke-width="1.5" stroke-linecap="round" class="river-path river-path--secondary"/>
+</svg>
+```
+
+### Variante C — Pulso / señal (línea técnica)
+```html
+<svg viewBox="0 0 1440 120" fill="none" class="w-full" preserveAspectRatio="none">
+  <path d="M0,60 L120,60 L160,20 L200,100 L240,20 L280,100 L320,60 L560,60 L600,30 L640,90 L680,30 L720,60 L1440,60"
+    stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <path d="M0,60 L200,60 L240,15 L280,105 L320,15 L360,60 L700,60 L740,35 L780,85 L820,35 L860,60 L1440,60"
+    stroke="rgba(245,158,11,0.22)" stroke-width="1.5" stroke-linecap="round" class="river-path"/>
+</svg>
+```
+
+### Variante D — Orgánico / botánico (curvas naturales)
+```html
+<svg viewBox="0 0 1440 200" fill="none" class="w-full" preserveAspectRatio="none">
+  <path d="M0,100 C100,60 200,140 400,80 C600,20 700,160 900,90 C1100,20 1300,130 1440,70"
+    stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <path d="M0,130 C150,80 300,170 500,100 C700,30 850,150 1050,80 C1250,10 1380,120 1440,90"
+    stroke="rgba(16,185,129,0.18)" stroke-width="2" stroke-linecap="round" class="river-path river-path--secondary"/>
+  <path d="M0,80 C120,40 280,120 480,60 C680,0 820,130 1020,70 C1220,10 1360,100 1440,50"
+    stroke="rgba(245,158,11,0.14)" stroke-width="1.5" class="river-path"/>
+</svg>
+```
+
+### Variante E — Diagonal / corte moderno (líneas rectas en ángulo)
+```html
+<svg viewBox="0 0 1440 140" fill="none" class="w-full" preserveAspectRatio="none">
+  <path d="M0,140 L400,40 L800,100 L1440,20" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <path d="M0,120 L350,30 L750,90 L1440,10" stroke="rgba(245,158,11,0.18)" stroke-width="1.5" stroke-linecap="round" class="river-path"/>
+  <path d="M0,100 L500,60 L900,80 L1440,30" stroke="rgba(255,255,255,0.04)" stroke-width="1" class="river-path river-path--secondary"/>
+</svg>
+```
+
+Adapta los colores de stroke según el tema activo del proyecto.
+
 ## Imágenes: siempre fotografía real, nunca iconos
 
 El fondo del hero siempre es una fotografía real del cliente o del contexto. Nunca un gradiente puro, nunca iconos como elemento visual principal.
